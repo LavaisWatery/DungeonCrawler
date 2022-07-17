@@ -6,6 +6,8 @@ namespace DungeonCrawler
 {
     class Game
     {
+        public static Random RANDOM = new Random();
+
         private Dictionary<string, World> worlds;
         private string gameTitle;
         private bool isOver = false;

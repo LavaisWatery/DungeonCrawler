@@ -6,6 +6,9 @@ namespace DungeonCrawler
 {
     class World
     {
+        // WORLD DATA
+        public static int WORLD_LENGTH = 10;
+
         private string worldName;
         private Dictionary<string, Room> rooms;
 
@@ -14,10 +17,51 @@ namespace DungeonCrawler
             this.worldName = worldName;
             this.rooms = new Dictionary<string, Room>();
 
-            Room newRoom = new Room(0, 1);
-            this.rooms.Add(newRoom.getCoordString(), newRoom);
+            generate();
+
+            displayWorld();
         }
 
+        void generate()
+        {
+            for(int i = 0; i < 5; i++)
+            {
+                Room room = new Room(Game.RANDOM.Next(0, WORLD_LENGTH), Game.RANDOM.Next(0, WORLD_LENGTH));
+                this.rooms.Add(room.getCoordString(), room);
+            }
+        }
+
+        public string getRoomCoord(int x, int y)
+        {
+            return "" + x + "," + y;
+        }
+
+        public string displayWorld()
+        {
+            Console.WriteLine("Generated World: \n\n");
+            for(int y = 0; y < WORLD_LENGTH; y++)
+            {
+                Console.Write("|");
+                
+                for (int x = 0; x < WORLD_LENGTH; x++) {
+                    Room room;
+
+                    if(rooms.TryGetValue(getRoomCoord(x, y), out room))
+                    {
+                        Console.Write("1");
+                    }
+                    else
+                    {
+                        Console.Write("0");
+                    }
+                }
+
+                Console.Write("|\n");
+            }
+            Console.Write("\n\n");
+
+            return "";
+        }
 
         public string getWorldName() { return worldName; }
 
